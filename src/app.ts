@@ -1,5 +1,4 @@
 import express, {Request,Response} from "express"
-import { getPlayer } from "./controllers/players-controller";
 import router from "./routes";
 
 
@@ -13,6 +12,8 @@ app.use(express.json());
 
 // Define chamar o rotas 
 app.use("/api",router);
+
+app.use('/resources',router)
 
     return app
 }
