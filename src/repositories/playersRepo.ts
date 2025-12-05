@@ -1,6 +1,6 @@
 import { PlayerModel } from "../models/players"
 
-const database:PlayerModel[] = [
+export const database:PlayerModel[] = [
   {
     "id": 1,
     "name": "Lionel Messi",
