@@ -1,4 +1,6 @@
+import { stat } from "fs"
 import { PlayerModel } from "../models/players"
+import { statisticsModel } from "../models/statistics-model"
 
 export const database:PlayerModel[] = [
   {
@@ -172,3 +174,35 @@ export const findPlayerbyId = async (id:number): Promise<PlayerModel | undefined
 
     return playerData
 }
+
+
+export const insertPlayer = async (player:PlayerModel) => {
+      database.push(player)
+}
+
+export const deletePlayer = async (id:number) => {
+      const index = database.findIndex(p => p.id === id)
+      if(index !== -1){
+       database.splice(index,1)
+       return true
+      }
+
+      return false
+}
+
+export const findAndUpdatePlayer = async (id: number, statistics: statisticsModel) => {
+  const playerIndex = database.findIndex(p => p.id === id);
+
+  // Se não encontrou o jogador
+  if (playerIndex === -1) {
+    return {
+      message: "Player not found, please check the ID",
+      statistics
+    };
+  }
+
+  // Encontrou → atualiza
+  database[playerIndex].statistics = statistics;
+
+  return database[playerIndex];
+};

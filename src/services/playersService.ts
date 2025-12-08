@@ -1,5 +1,7 @@
 import * as httpStatus from "../utils/http-helper"
 import * as playerRepo from '../repositories/playersRepo'
+import { PlayerModel } from "../models/players"
+import { statisticsModel } from "../models/statistics-model"
  
 export const getPlayerData = async () => {
 
@@ -31,8 +33,40 @@ export const getPlayerData = async () => {
     return response
  }
 
- export const insertPlayerDataService = async (body:any) => { 
-        let repo = playerRepo.database
-        
-        
- }
+export const createPlayerService = async (player: PlayerModel) => { 
+    let response = null
+    if (Object.keys(player).length !== 0) {
+      await playerRepo.insertPlayer(player)
+      response = httpStatus.created()
+    }else{
+        response = httpStatus.badContent("Player not created")
+    
+    }
+
+    return response
+}
+
+
+export const deletePlayerService = async (id:number) => { 
+    let response = null
+    const isDeleted = await playerRepo.deletePlayer(id)
+    if (isDeleted === true) {
+        response = httpStatus.ok("player deleted")
+    }else{
+        response = httpStatus.badContent("Player not found")
+    }
+
+    return response
+}
+
+export const updatePlayerService = async (id:number,statistics:statisticsModel) => { 
+    let response = null
+    if (Object.keys(statistics).length === 0) {
+        response = httpStatus.badContent("Player not updated")
+    }else{
+        await playerRepo.findAndUpdatePlayer(id,statistics)
+        response = httpStatus.ok({message:"Player Updated", statistics:statistics})
+    }
+
+    return response
+}

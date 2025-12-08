@@ -14,3 +14,17 @@ export const noContent = async () : Promise<HttpResponse> => {
         body: null
     }
 }
+
+export const badContent = async (error?:string) : Promise<HttpResponse> => { 
+    return {
+        statusCode: 400, 
+        body: error ?? ""
+    }
+}
+
+export const created = async () : Promise<HttpResponse> => { 
+    return {
+        statusCode: 201, 
+        body: "Sucessfuly created"
+    }
+}
